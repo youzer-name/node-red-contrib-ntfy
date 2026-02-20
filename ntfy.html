@@ -72,6 +72,10 @@
         <label for="node-input-firebase"><i class="fa fa-mobile"></i> Firebase</label>
         <select id="node-input-firebase" style="width:70%;"><option value="">(msg.firebase)</option><option value="yes">Yes</option><option value="no">No</option></select>
     </div>
+    <div class="form-row">
+        <label for="node-input-sequence-id"><i class="fa fa-list-ol"></i> Sequence ID (optional)</label>
+        <input type="text" id="node-input-sequence-id" placeholder="Sequence ID (or msg.sequence-id)">
+    </div>
     <hr/>
     <div class="form-row">
         <label>&nbsp;</label>
@@ -101,6 +105,7 @@
             delay: {value: ""},
             cache: {value: ""},
             firebase: {value: ""},
+            sequenceId: {value: ""},
             insecure: {value: false}
         },
         inputs: 1,
@@ -153,6 +158,8 @@
         <dd>Overrides the configured <b>Cache</b> setting (<code>yes</code> or <code>no</code>).</dd>
         <dt class="optional">firebase <span class="property-type">string</span></dt>
         <dd>Overrides the configured <b>Firebase</b> setting (<code>yes</code> or <code>no</code>).</dd>
+        <dt class="optional">sequence-id <span class="property-type">string</span></dt>
+        <dd>Overrides the configured <b>Sequence ID</b>. Sets the <code>X-sequence-id</code> header for the message. Can be set in the node or via <code>msg["sequence-id"]</code>.</dd>
     </dl>
 
     <h3>Details</h3>
@@ -176,6 +183,7 @@
         <li><b>Delay</b>: Schedule message delivery (e.g., <code>10m</code>, <code>1h30min</code>).</li>
         <li><b>Cache</b>: Set to <code>no</code> to prevent the message from being cached by the ntfy server.</li>
         <li><b>Firebase</b>: Set to <code>no</code> to prevent the message from being sent via Firebase Cloud Messaging (FCM).</li>
+        <li><b>Sequence ID</b>: Optional. Sets the <code>X-sequence-id</code> header for the message. Can be overridden by <code>msg["sequence-id"]</code>.</li>
         <li><b>Allow insecure HTTPS</b>: If checked, SSL certificate errors will be ignored when connecting to an HTTPS ntfy server. Use with caution.</li>
     </ul>
 

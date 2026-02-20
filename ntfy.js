@@ -21,6 +21,7 @@ module.exports = function(RED) {
         this.delay = config.delay;
         this.cache = config.cache;
         this.firebase = config.firebase;
+        this.sequenceId = config.sequenceId;
         this.insecure = config.insecure || false;
 
         let node = this;
@@ -48,6 +49,7 @@ module.exports = function(RED) {
             const delay = msg.delay || node.delay;
             const cache = msg.cache || node.cache;
             const firebase = msg.firebase || node.firebase;
+            const sequenceId = msg["sequence-id"] || node.sequenceId;
 
             if (!topic) {
                 node.error("Topic not configured or provided in msg.topic", msg);
@@ -76,6 +78,7 @@ module.exports = function(RED) {
             if (delay) headers['Delay'] = delay;
             if (cache) headers['Cache'] = cache;
             if (firebase) headers['Firebase'] = firebase;
+            if (sequenceId) headers['X-sequence-id'] = sequenceId;
 
             if (actions) {
                 if (typeof actions === 'string') {
