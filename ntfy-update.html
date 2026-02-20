@@ -1,0 +1,50 @@
+<script type="text/html" data-template-name="ntfy-update">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-serverConfig"><i class="fa fa-cog"></i> Server Config</label>
+        <input type="text" id="node-input-serverConfig">
+    </div>
+    <hr/>
+    <div class="form-row">
+        <label for="node-input-command"><i class="fa fa-bolt"></i> Command</label>
+        <select id="node-input-command">
+            <option value="clear">Clear</option>
+            <option value="delete">Delete</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic"><i class="fa fa-bullhorn"></i> Topic</label>
+        <input type="text" id="node-input-topic" placeholder="your_topic_name (or msg.topic)">
+    </div>
+    <div class="form-row">
+        <label for="node-input-sequenceId"><i class="fa fa-list-ol"></i> Sequence ID (optional)</label>
+        <input type="text" id="node-input-sequenceId" placeholder="Sequence ID (or msg.sequence-id)">
+    </div>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('ntfy-update', {
+        category: 'network',
+        color: '#5eead4',
+        defaults: {
+            name: {value: ""},
+            serverConfig: {value: "", type: "ntfy-credentials", required: true},
+            command: {value: "clear"},
+            topic: {value: ""},
+            sequenceId: {value: ""}
+        },
+        inputs: 1,
+        outputs: 0,
+        icon: "ntfy.svg",
+        paletteLabel: "ntfy update",
+        label: function() {
+            return this.name || "ntfy update: " + (this.topic || (this.serverConfigNode ? this.serverConfigNode.server : "untitled"));
+        },
+        oneditprepare: function() {
+            // No custom logic needed
+        }
+    });
+</script>

@@ -13,12 +13,15 @@
 	"node-red": {
 		"nodes": {
 			"ntfy": "ntfy.js",
-			"ntfy-credentials": "ntfy-credentials.js"
+			"ntfy-credentials": "ntfy-credentials.js",
+			"ntfy-update": "ntfy-update.js"
 		}
 	},
 	"files": [
 		"ntfy.js",
 		"ntfy.html",
+		"ntfy-update.js",
+		"ntfy-update.html",
 		"ntfy-credentials.js",
 		"ntfy-credentials.html",
 		"ntfy.svg",
