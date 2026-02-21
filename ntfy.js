@@ -35,21 +35,21 @@ module.exports = function(RED) {
         const ntfyServerBaseUrl = node.serverConfigNode.server;
 
         node.on('input', async function(msg, send, done) {
-            const topic = msg.topic || node.topic;
-            let messageBody = msg.payload !== undefined ? (typeof msg.payload === 'string' ? msg.payload : JSON.stringify(msg.payload)) : node.message;
-            const title = msg.title || node.title;
-            const priority = msg.priority || node.priority;
-            const tags = msg.tags || node.tags; // Expects comma-separated string or array from msg.tags
-            const iconUrl = msg.icon || node.icon;
-            const clickUrl = msg.click || node.click;
-            const attachUrl = msg.attach || node.attach;
-            const filename = msg.filename || node.filename;
-            const actions = msg.actions || node.actions; // Can be string (from config) or array/string from msg
-            const email = msg.email || node.email;
-            const delay = msg.delay || node.delay;
-            const cache = msg.cache || node.cache;
-            const firebase = msg.firebase || node.firebase;
-            const sequenceId = msg["sequence-id"] || node.sequenceId;
+            const topic = node.topic || msg.topic;
+            let messageBody = node.message !== undefined ? node.message : (msg.payload !== undefined ? (typeof msg.payload === 'string' ? msg.payload : JSON.stringify(msg.payload)) : undefined);
+            const title = node.title || msg.title;
+            const priority = node.priority || msg.priority;
+            const tags = node.tags || msg.tags; // Expects comma-separated string or array from msg.tags
+            const iconUrl = node.icon || msg.icon;
+            const clickUrl = node.click || msg.click;
+            const attachUrl = node.attach || msg.attach;
+            const filename = node.filename || msg.filename;
+            const actions = node.actions || msg.actions; // Can be string (from config) or array/string from msg
+            const email = node.email || msg.email;
+            const delay = node.delay || msg.delay;
+            const cache = node.cache || msg.cache;
+            const firebase = node.firebase || msg.firebase;
+            const sequenceId = node.sequenceId || msg["sequence-id"];
 
             if (!topic) {
                 node.error("Topic not configured or provided in msg.topic", msg);
