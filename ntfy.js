@@ -35,22 +35,33 @@ module.exports = function(RED) {
         const ntfyServerBaseUrl = node.serverConfigNode.server;
 
         node.on('input', async function(msg, send, done) {
-            const topic = node.topic || msg.topic;
-            let messageBody = node.message !== undefined ? node.message : (msg.payload !== undefined ? (typeof msg.payload === 'string' ? msg.payload : JSON.stringify(msg.payload)) : undefined);
-            const title = node.title || msg.title;
-            const priority = node.priority || msg.priority;
-            const tags = node.tags || msg.tags; // Expects comma-separated string or array from msg.tags
-            const iconUrl = node.icon || msg.icon;
-            const clickUrl = node.click || msg.click;
-            const attachUrl = node.attach || msg.attach;
-            const filename = node.filename || msg.filename;
-            const actions = node.actions || msg.actions; // Can be string (from config) or array/string from msg
-            const email = node.email || msg.email;
-            const delay = node.delay || msg.delay;
-            const cache = node.cache || msg.cache;
-            const firebase = node.firebase || msg.firebase;
-            const sequenceId = node.sequenceId || msg["sequence-id"];
+            // Helper to determine if the node config has a valid override
+            const getVal = (configVal, msgVal) => {
+                return (configVal !== undefined && configVal !== null && configVal.toString().trim() !== "") 
+                    ? configVal 
+                    : msgVal;
+            };
 
+            const topic = getVal(node.topic, msg.topic);
+            const title = getVal(node.title, msg.title);
+            const priority = getVal(node.priority, msg.priority);
+            const tags = getVal(node.tags, msg.tags);
+            const iconUrl = getVal(node.icon, msg.icon);
+            const clickUrl = getVal(node.click, msg.click);
+            const attachUrl = getVal(node.attach, msg.attach);
+            const filename = getVal(node.filename, msg.filename);
+            const actions = getVal(node.actions, msg.actions);
+            const email = getVal(node.email, msg.email);
+            const delay = getVal(node.delay, msg.delay);
+            const cache = getVal(node.cache, msg.cache);
+            const firebase = getVal(node.firebase, msg.firebase);
+            const sequenceId = getVal(node.sequenceId, msg["sequence-id"]);
+
+            // Fixed messageBody logic: fall back to payload if node.message is empty string or undefined
+            let rawBody = (node.message !== undefined && node.message.trim() !== "") ? node.message : msg.payload;
+            let messageBody = (rawBody !== undefined && rawBody !== null) 
+                ? (typeof rawBody === 'string' ? rawBody : JSON.stringify(rawBody)) 
+                : undefined;
             if (!topic) {
                 node.error("Topic not configured or provided in msg.topic", msg);
                 node.status({fill:"red", shape:"ring", text:"no topic"});
