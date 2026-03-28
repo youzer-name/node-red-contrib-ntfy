@@ -23,6 +23,7 @@ module.exports = function(RED) {
         this.firebase = config.firebase;
         this.sequenceId = config.sequenceId;
         this.insecure = config.insecure || false;
+        this.markdown = config.markdown || false;
 
         let node = this;
 
@@ -41,6 +42,9 @@ module.exports = function(RED) {
                     ? configVal 
                     : msgVal;
             };
+
+            // Markdown: allow override by msg.markdown, else use node config
+            let markdown = (typeof msg.markdown !== 'undefined') ? !!msg.markdown : !!node.markdown;
 
             const topic = getVal(node.topic, msg.topic);
             const title = getVal(node.title, msg.title);
@@ -71,6 +75,7 @@ module.exports = function(RED) {
 
             // Ntfy expects the message in the request body. Other parameters are headers.
             const headers = {};
+                        if (markdown) headers['X-Markdown'] = 'true';
             if (title) headers['Title'] = title;
             if (priority) headers['Priority'] = priority.toString();
             

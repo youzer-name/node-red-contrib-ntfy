@@ -21,6 +21,11 @@
         <input type="text" id="node-input-title" placeholder="msg.title or string">
     </div>
     <div class="form-row">
+        <label for="node-input-markdown"><i class="fa fa-markdown"></i> Enable Markdown</label>
+        <input type="checkbox" id="node-input-markdown" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-markdown" style="width: 70%;"> Render message as Markdown (can be overridden by <code>msg.markdown</code>)</label>
+    </div>
+    <div class="form-row">
         <label for="node-input-priority"><i class="fa fa-exclamation-triangle"></i> Priority</label>
         <select id="node-input-priority" style="width:70%;">
             <option value="">(msg.priority)</option>
@@ -106,7 +111,8 @@
             cache: {value: ""},
             firebase: {value: ""},
             sequenceId: {value: ""},
-            insecure: {value: false}
+            insecure: {value: false},
+            markdown: {value: false}
         },
         inputs: 1,
         outputs: 0,
@@ -126,10 +132,10 @@
 
     <h3>Inputs</h3>
     <dl class="message-properties">
-        <dt class="optional">payload <span class="property-type">string</span></dt>
-        <dd>The main message content. If not set, the configured <b>Message</b> will be used.</dd>
         <dt class="optional">topic <span class="property-type">string</span></dt>
         <dd>Overrides the configured <b>Topic</b>.</dd>
+        <dt class="optional">payload <span class="property-type">string</span></dt>
+        <dd>The main message content. If not set, the configured <b>Message</b> will be used.</dd>
         <dt class="optional">title <span class="property-type">string</span></dt>
         <dd>Overrides the configured <b>Title</b>.</dd>
         <dt class="optional">priority <span class="property-type">number | string</span></dt>
@@ -160,6 +166,8 @@
         <dd>Overrides the configured <b>Firebase</b> setting (<code>yes</code> or <code>no</code>).</dd>
         <dt class="optional">sequence-id <span class="property-type">string</span></dt>
         <dd>Overrides the configured <b>Sequence ID</b>. Sets the <code>X-sequence-id</code> header for the message. Can be set in the node or via <code>msg["sequence-id"]</code>.</dd>
+        <dt class="optional">markdown <span class="property-type">boolean</span></dt>
+        <dd>If set to <code>true</code>, enables Markdown rendering for the message. Overrides the node's <b>Enable Markdown</b> setting.</dd>
     </dl>
 
     <h3>Details</h3>
@@ -184,6 +192,7 @@
         <li><b>Cache</b>: Set to <code>no</code> to prevent the message from being cached by the ntfy server.</li>
         <li><b>Firebase</b>: Set to <code>no</code> to prevent the message from being sent via Firebase Cloud Messaging (FCM).</li>
         <li><b>Sequence ID</b>: Optional. Sets the <code>X-sequence-id</code> header for the message. Can be overridden by <code>msg["sequence-id"]</code>.</li>
+        <li><b>Enable Markdown</b>: If checked, the message will be rendered as Markdown. This can be overridden by <code>msg.markdown</code>.</li>
         <li><b>Allow insecure HTTPS</b>: If checked, SSL certificate errors will be ignored when connecting to an HTTPS ntfy server. Use with caution.</li>
     </ul>
 
